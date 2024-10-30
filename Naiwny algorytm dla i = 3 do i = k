@@ -24,9 +24,9 @@ int main() {
 
     for (int n : limits) {
         cout << "Dla n = " << n << ":" << endl;
-        clock_t start_time = clock();
+        clock_t start_time = clock(); // Mierzenie czasu rozpoczęcia
         int count = ilePierwszych(n);
-        clock_t end_time = clock();
+        clock_t end_time = clock(); // Mierzenie czasu zakończenia
         double execution_time = static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC;
         cout << "Algorytm A (Naiwny prosty): " << count << " liczb pierwszych, czas: " 
              << execution_time << " sekund" << endl;
