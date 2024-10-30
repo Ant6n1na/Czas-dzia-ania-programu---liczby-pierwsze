@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <ctime>
+using namespace std;
+
+int policzLiczbyPierwszeAtkina(int limit) {
+    if (limit < 2) return 0;
+    vector<bool> jest_pierwsza(limit + 1, false);
+    jest_pierwsza[2] = jest_pierwsza[3] = true;
+
+    for (int x = 1; x * x <= limit; ++x) {
+        for (int y = 1; y * y <= limit; ++y) {
+            int n = (4 * x * x) + (y * y);
+            if (n <= limit && (n % 12 == 1 || n % 12 == 5)) {
+                jest_pierwsza[n] = !jest_pierwsza[n];
+            }
+            n = (3 * x * x) + (y * y);
+            if (n <= limit && n % 12 == 7) {
+                jest_pierwsza[n] = !jest_pierwsza[n];
+            }
+            n = (3 * x * x) - (y * y);
+            if (x > y && n <= limit && n % 12 == 11) {
+                jest_pierwsza[n] = !jest_pierwsza[n];
+            }
+        }
+    }
+
+    for (int r = 5; r * r <= limit; ++r) {
+        if (jest_pierwsza[r]) {
+            for (int i = r * r; i <= limit; i += r * r) {
+                jest_pierwsza[i] = false;
+            }
+        }
+    }
+
+    int licznik = 0;
+    for (bool prime : jest_pierwsza) {
+        if (prime) ++licznik;
+    }
+    return licznik;
+}
+
+int main() {
+    int limity[] = {1000, 10000, 100000, 1000000};
+
+    for (int n : limity) {
+        cout << "Dla n = " << n << ":" << endl;
+        clock_t start_time = clock();
+        int count = policzLiczbyPierwszeAtkina(n);
+        clock_t end_time = clock();
+        
+        double czas_wykonania = static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC;
+        cout << "Sito Atkina: " << count << " liczb pierwszych, czas: "
+             << czas_wykonania << " sekund" << endl;
+        cout << "----------------------------------------" << endl;
+    }
+
+    return 0;
+}
