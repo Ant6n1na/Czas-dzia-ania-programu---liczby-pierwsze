@@ -1,0 +1,37 @@
+#include <iostream>
+#include <ctime>
+#include <vector>
+using namespace std;
+
+bool czyPierwsza(int n) {
+    if (n < 2) return false;
+    for (int i = 2; i < n; ++i) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+int ilePierwszych(int limit) {
+    int licznik = 0;
+    for (int i = 1; i <= limit; ++i) {
+        if (czyPierwsza(i)) ++licznik;
+    }
+    return licznik;
+}
+
+int main() {
+    int limits[] = {1000, 10000, 100000, 1000000};
+
+    for (int n : limits) {
+        cout << "Dla n = " << n << ":" << endl;
+        clock_t start_time = clock();
+        int count = ilePierwszych(n);
+        clock_t end_time = clock();
+        double execution_time = static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC;
+        cout << "Algorytm A (Naiwny prosty): " << count << " liczb pierwszych, czas: " 
+             << execution_time << " sekund" << endl;
+        cout << "----------------------------------------" << endl;
+    }
+
+    return 0;
+}
